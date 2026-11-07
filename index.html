@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Оюутны AI Хөтөлбөр — Notion Hub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="cover-banner">
+        <div class="cover-overlay">
+            <span class="badge">GitHub Pages &bull; Notion Embed Ready</span>
+        </div>
+    </div>
+
+    <main class="notion-container">
+        <header class="page-header">
+            <div class="page-icon">🚀</div>
+            <h1>100 Оюутны хичээлийн хуваарь &amp; AI Ментор Hub</h1>
+            <p class="subtitle">ШУТИС МХТС — Өгөгдлийн шинжлэх ухаан | 8 долоо хоног, 21 хичээлийн интерактив хяналтын самбар</p>
+            
+            <div class="progress-card">
+                <div class="progress-info">
+                    <strong>Хөтөлбөрийн явц:</strong>
+                    <span id="progress-text">0 / 21 хичээл (0%)</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                </div>
+            </div>
+
+            <div class="action-bar">
+                <button class="btn btn-primary" onclick="copyMasterPrompt()">🤖 ChatGPT Master Prompt хуулах</button>
+                <button class="btn btn-secondary" onclick="downloadICS()">📅 Apple Calendar (.ics) татах</button>
+                <button class="btn btn-outline" onclick="resetProgress()">🔄 Явц шинэчлэх</button>
+            </div>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="switchTab('schedule', this)">📅 Хичээлийн хуваарь (21)</button>
+            <button class="tab-btn" onclick="switchTab('prompt', this)">🧠 AI Ментор Prompt</button>
+            <button class="tab-btn" onclick="switchTab('guide', this)">⚡ Харилцах зөвлөмж</button>
+            <button class="tab-btn" onclick="switchTab('deploy', this)">🌐 GitHub &amp; Notion Заавар</button>
+        </nav>
+
+        <!-- TAB 1: SCHEDULE -->
+        <section id="tab-schedule" class="tab-content active">
+            <div class="filter-row">
+                <input type="text" id="search-input" placeholder="🔍 Хичээлийн сэдэв, багшаар хайх..." oninput="renderLessons()">
+                <select id="week-filter" onchange="renderLessons()">
+                    <option value="all">Бүх долоо хоног (Week 0–7)</option>
+                    <option value="0">Week 0 — Нээлт</option>
+                    <option value="1">Week 1 — Python суурь</option>
+                    <option value="2">Week 2 — Data &amp; ML</option>
+                    <option value="3">Week 3 — Hugging Face &amp; Vibe Coding</option>
+                    <option value="4">Week 4 — Responsible AI &amp; Capstone</option>
+                    <option value="5">Week 5 — LLM API &amp; Cloud</option>
+                    <option value="6">Week 6 — Capstone Build</option>
+                    <option value="7">Week 7 — Demo Day</option>
+                </select>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="notion-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 45px;">Төлөв</th>
+                            <th style="width: 50px;">№</th>
+                            <th style="width: 85px;">Week</th>
+                            <th style="width: 115px;">Огноо / Гараг</th>
+                            <th style="width: 110px;">Цаг</th>
+                            <th>Хичээлийн сэдэв ба Дэлгэрэнгүй</th>
+                            <th style="width: 150px;">Багш</th>
+                            <th style="width: 130px;">AI Дасгалжуулагч</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lesson-tbody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- TAB 2: MASTER PROMPT -->
+        <section id="tab-prompt" class="tab-content">
+            <div class="callout">
+                <span class="callout-icon">💡</span>
+                <div>
+                    <strong>Хэрхэн ашиглах вэ?</strong> Доорх промптыг хуулж аваад ChatGPT-ийн <strong>Project Instructions</strong> эсвэл шинэ чатын эхэнд тавиарай.
+                </div>
+            </div>
+            <div class="code-header">
+                <span>System / Master Prompt (Markdown)</span>
+                <button class="btn btn-small" onclick="copyMasterPrompt()">📋 Хуулах</button>
+            </div>
+            <pre id="master-prompt-box" class="code-block"></pre>
+        </section>
+
+        <!-- TAB 3: GUIDE -->
+        <section id="tab-guide" class="tab-content">
+            <div class="grid-cards">
+                <div class="card">
+                    <h3>1. Хичээлийн өмнө (10 мин)</h3>
+                    <p>Орой 19:00 цагийн хичээлд орохоос өмнө гол ухагдахуунаа урьдчилж харна.</p>
+                    <button class="btn btn-small" onclick="copyQuickPrompt('pre')">📋 Өмнөх бэлтгэлийн промпт хуулах</button>
+                </div>
+                <div class="card">
+                    <h3>2. Хичээлийн үеэр ба дараа</h3>
+                    <p>Багшийн бичсэн кодыг мөр бүрээр нь задлуулж, Production-ready хэлбэрийг сурна.</p>
+                    <button class="btn btn-small" onclick="copyQuickPrompt('during')">📋 Код задлах промпт хуулах</button>
+                </div>
+                <div class="card">
+                    <h3>3. Code Review &amp; Бататгах</h3>
+                    <p>Өөрийн бичсэн кодоо шалгуулж, алдааны уг шалтгааныг (Root cause) олно.</p>
+                    <button class="btn btn-small" onclick="copyQuickPrompt('review')">📋 Code Review промпт хуулах</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: DEPLOY GUIDE -->
+        <section id="tab-deploy" class="tab-content">
+            <div class="card">
+                <h3>🌐 GitHub Pages + Student Developer Pack ашиглан үнэгүй байршуулах</h3>
+                <ol class="step-list">
+                    <li><strong>WebStorm / Терминал дээр:</strong> Энэ ZIP файлыг задлаад шинэ GitHub repository руу <code>git push</code> хийнэ.</li>
+                    <li><strong>GitHub Pages идэвхжүүлэх:</strong> Repository-ийн <em>Settings &rarr; Pages &rarr; Branch: main (/root) &rarr; Save</em> дарна.</li>
+                    <li><strong>Үнэгүй домэйн холбох (Сонголтоор):</strong> GitHub Student Developer Pack доторх <strong>Namecheap (.me)</strong> эсвэл <strong>Name.com</strong> эрхээрээ үнэгүй домэйн авч <em>Custom domain</em> хэсэгт холбож болно.</li>
+                    <li><strong>Notion дотор суулгах:</strong> Notion хуудсан дээрээ <code>/embed</code> гэж бичээд <code>https://&lt;username&gt;.github.io/&lt;repo-name&gt;/</code> холбоосоо хуулж тавина.</li>
+                </ol>
+            </div>
+        </section>
+    </main>
+
+    <div id="toast" class="toast">Хуулагдлаа!</div>
+    <script src="app.js"></script>
+</body>
+</html>
